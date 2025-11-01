@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>温馨提示</title>
+    <style>
+        /* 隐藏滚动条，让页面更干净 */
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f0f0; /* 给个背景色 */
+        }
+
+        /* 这是每个提示窗口的样式 */
+        .tip-window {
+            position: absolute; /* 关键！让窗口可以随意定位 */
+            width: 250px;
+            height: 60px;
+            color: white;
+            font-family: 'Microsoft YaHei', sans-serif; /* 使用更柔和的字体 */
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px; /* 加个圆角，更好看 */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* 加个阴影，更有立体感 */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* 文字阴影，更清晰 */
+            
+            /* 动画效果：让窗口淡入并放大出现 */
+            animation: fadeInScale 0.5s ease-out forwards;
+            transform: scale(0.5);
+            opacity: 0;
+        }
+
+        /* 定义动画 */
+        @keyframes fadeInScale {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    // 页面加载完成后立即执行
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // 提示文字列表 (和图片中一样)
+        const tips = [
+            '多喝水哦~', '保持微笑呀', '每天都要元气满满',
+            '记得吃水果', '保持好心情', '好好爱自己',
+            '我想你了', '梦想成真', '期待下一次见面',
+            '金榜题名', '顺顺利利', '早点休息',
+            '愿所有烦恼都消失', '别熬夜', '今天过得开心嘛',
+            '天冷了, 多穿衣服'
+        ];
+
+        // 多样的背景颜色 (这里用了更鲜艳明亮的颜色)
+        const bgColors = [
+            '#ff6b6b', '#f06595', '#cc5de8', '#845ef7', '#5c7cfa',
+            '#339af0', '#22b8cf', '#20c997', '#51cf66', '#94d82d',
+            '#fcc419', '#ff922b', '#ff6b6b'
+        ];
+
+        // 获取屏幕的宽高
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        
+        const windowWidth = 250;
+        const windowHeight = 60;
+
+        // 创建一个温馨提示窗口的函数
+        function createWarmTip() {
+            // 1. 随机选择提示和颜色
+            const tipText = tips[Math.floor(Math.random() * tips.length)];
+            const bgColor = bgColors[Math.floor(Math.random() * bgColors.length)];
+
+            // 2. 计算随机位置 (确保窗口完全显示在屏幕内)
+            const x = Math.floor(Math.random() * (screenWidth - windowWidth));
+            const y = Math.floor(Math.random() * (screenHeight - windowHeight));
+
+            // 3. 创建一个新的HTML元素 (div) 作为窗口
+            const tipWindow = document.createElement('div');
+            
+            // 4. 设置窗口的属性
+            tipWindow.className = 'tip-window'; // 应用CSS样式
+            tipWindow.textContent = tipText;    // 设置文字
+            tipWindow.style.backgroundColor = bgColor; // 设置背景颜色
+            tipWindow.style.left = `${x}px`; // 设置水平位置
+            tipWindow.style.top = `${y}px`;  // 设置垂直位置
+
+            // 5. 将创建好的窗口添加到页面中
+            document.body.appendChild(tipWindow);
+        }
+
+        // --- 主程序 ---
+        const numWindows = 100; // 窗口数量 (可以调整)
+        let count = 0;
+
+        // 使用 setInterval 来模拟 Python 的 time.sleep，每隔一小段时间创建一个窗口
+        const interval = setInterval(() => {
+            if (count < numWindows) {
+                createWarmTip();
+                count++;
+            } else {
+                clearInterval(interval); // 创建够了就停止
+            }
+        }, 50); // 每50毫秒弹出一个窗口，可以调整这个速度
+
+    });
+</script>
+
+</body>
+</html>
